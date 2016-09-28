@@ -1,0 +1,14 @@
+{
+    "name": "droidwiki/xenforo-bd-client",
+    "description": "A consumer for the XenForo bd Api plugin.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Florian Schmidt",
+            "email": "florian.schmidt@droidwiki.de"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
