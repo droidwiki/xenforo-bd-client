@@ -1,6 +1,6 @@
 <?php
 
-namespace XenForoBD;
+namespace XenForoBDClient;
 
 final class Scopes {
 	const READ = 'read';

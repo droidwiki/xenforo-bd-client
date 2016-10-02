@@ -12,5 +12,10 @@
     "minimum-stability": "dev",
     "require": {
         "net/http": "1.1.*"
-    }
+    },
+	"autoload": {
+		"psr-4": {
+			"XenForoBDClient\\": "src/XenForoBDClient"
+		}
+	}
 }
