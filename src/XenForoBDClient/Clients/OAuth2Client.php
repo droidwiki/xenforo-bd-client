@@ -1,10 +1,8 @@
 <?php
 
-namespace XenForoBDClient\Auth;
+namespace XenForoBDClient\Clients;
 
-use XenForoBDClient\Client;
-
-class OAuth2 extends Client {
+class OAuth2Client extends BaseClient {
 	/**
 	 * @const string The url template used to create an OAuth2 authentication request url.
 	 */
@@ -164,5 +162,9 @@ class OAuth2 extends Client {
 			return '';
 		}
 		return $responseJson['access_token'];
+	}
+
+	public function isAuthenticated() {
+		return $this->accessToken !== null;
 	}
 }

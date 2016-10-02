@@ -1,13 +1,13 @@
 <?php
 
-namespace XenForoBDClient;
+namespace XenForoBDClient\Clients;
 
 /**
  * Abstract class that defines basic functions which are required to interact with the XenForo
  * bd api.
  * @package XenForoBDClient
  */
-abstract class Client {
+abstract class BaseClient implements Client {
 	/**
 	 * @var string|null The client ID of the api client to use.
 	 */
@@ -57,6 +57,9 @@ abstract class Client {
 	}
 
 	public function getBaseUrl() {
+		if ( $this->baseUrl === null ) {
+			throw new \InvalidArgumentException( 'The base url isn\'t set so far.' );
+		}
 		return $this->baseUrl;
 	}
 
@@ -64,5 +67,9 @@ abstract class Client {
 		$this->redirectUri = $redirectUri;
 
 		return $this;
+	}
+
+	public function getAccessToken() {
+		return null;
 	}
 }
