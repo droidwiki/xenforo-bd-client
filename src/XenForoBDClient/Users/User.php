@@ -20,6 +20,12 @@ class User {
 	const USERS_BASE_URL_AUTHENTICATED = self::USERS_BASE_URL . '&oauth_token=%s';
 
 	/**
+	 * @var array|null An array of error messages, when a request of information failed and error
+	 * messages are provided.
+	 */
+	private $errors;
+
+	/**
 	 * @var Client The Client to use.
 	 */
 	private $client;
@@ -29,7 +35,10 @@ class User {
 	}
 
 	/**
-	 * Returns the infromation of the given user (if the user exists), otherwise retuns false.
+	 * Returns the information of the given user (if the user exists), otherwise returns false.
+	 * If false is returned, it's possible that more information about the error was provided by
+	 * the XenForo API, which then can be retrieved with the getErrors method.
+	 *
 	 * @param string|integer $userId The user ID of the user to request. The value "me" retrieves
 	 * the information of the currently authenticated user, if one is already authenticated.
 	 * @return bool|array
@@ -44,6 +53,17 @@ class User {
 			return false;
 		}
 		return $userInfo;
+	}
+
+	/**
+	 * Returns an array of errors if there were some, otherwise an empty array.
+	 * @return array
+	 */
+	public function getErrors() {
+		if ($this->errors === null ) {
+			return [];
+		}
+		return $this->errors;
 	}
 
 	private function fetchUserInfo( $userIdentifier ) {
@@ -65,10 +85,15 @@ class User {
 		$httpClient = new \Net_Http_Client();
 		$httpClient->get( $requestUrl );
 
+		$json = json_decode( $httpClient->getBody(), true );
 		if ( $httpClient->getStatus() !== 200 ) {
+			if ( isset( $json['errors'] ) ) {
+				$this->errors = $json['errors'];
+			}
+
 			return false;
 		}
-		$json = json_decode( $httpClient->getBody(), true );
+
 		return $json;
 	}
 }
